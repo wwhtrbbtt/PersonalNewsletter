@@ -1,10 +1,8 @@
-package main
+package personalnewsletter
 
 import (
 	"fmt"
-
-	aggregator "github.com/wwhtrbbtt/PersonalNewsletter/aggregator"
-	sender "github.com/wwhtrbbtt/PersonalNewsletter/sender"
+	sender "personalnewsleter/sender"
 )
 
 func main() {

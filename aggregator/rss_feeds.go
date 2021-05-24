@@ -30,7 +30,7 @@ func FetchRssFeed(url string, count int) (Module, error) {
 	}
 	fmt.Println(feed)
 	// TODO - parse feed
-	m.Title = "RSS - " + siteName
+	m.Caption = "RSS - " + siteName
 	m.Text = fmt.Sprintf("The latest %d results for the RSS feed of %s", count, siteName)
 
 	for tmp, entry := range feed.Items {
