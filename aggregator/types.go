@@ -20,9 +20,9 @@ type Image struct {
 
 // The output of a module. Several of these make up an email
 type Module struct {
-	Caption string `json:"caption"` // Title of the module
-	Image   Image  `json:"image"`   // Image of the module - optional
-	Text    string `json:"text"`    // Text of the module - optional
-	Links   []Link `json:"links"`   // Collection of links - optional (ex. RSS feed)
-	Button  Button `json:"button"`  // Button of the module - optional
+	Caption string `json:"caption"`            // Title of the module
+	Image   Image  `json:"image"`              // Image of the module - optional
+	Text    string `json:"text"`               // Text of the module - optional
+	Links   []Link `json:"links"`              // Collection of links - optional (ex. RSS feed)
+	Button  Button `json:"button",omitonempty` // Button of the module - optional
 }

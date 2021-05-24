@@ -28,8 +28,6 @@ func FetchRssFeed(url string, count int) (Module, error) {
 	if err != nil {
 		return m, err
 	}
-	fmt.Println(feed)
-	// TODO - parse feed
 	m.Caption = "RSS - " + siteName
 	m.Text = fmt.Sprintf("The latest %d results for the RSS feed of %s", count, siteName)
 
