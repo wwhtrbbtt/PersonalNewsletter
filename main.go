@@ -1,11 +1,14 @@
 package main
 
 import (
+	"os"
+
 	aggregator "github.com/wwhtrbbtt/PersonalNewsletter/aggregator"
 	sender "github.com/wwhtrbbtt/PersonalNewsletter/sender"
 )
 
 func main() {
+
 	var feed sender.Feed
 
 	feed.Time = "00:00"
@@ -16,4 +19,6 @@ func main() {
 	// RSS feed
 	rss, _ := aggregator.FetchRssFeed("https://github.com/wwhtrbbtt/PersonalNewsletter/commits.atom", 10)
 	feed.Modules = append(feed.Modules, rss)
+
+	sender.SendEmail(feed, os.Getenv("SENDEREMAIL"), os.Getenv("PASSWORD"), os.Getenv("SMTPSERVER"))
 }
