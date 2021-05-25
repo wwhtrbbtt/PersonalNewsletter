@@ -45,7 +45,7 @@ func init() {
 
 func main() {
 	var c Config
-	c.Email = "pe3et@protonmail.com"
+	c.Email = "peet@drugabu.se"
 	c.Feedname = "my cool feed"
 	c.Greetingname = "peet"
 	c.Time = "10:00"
@@ -76,7 +76,6 @@ func main() {
 		fmt.Println("Pleace set the SMTPSERVER")
 		os.Exit(1)
 	}
-	fmt.Println(feed)
 	sender.SendEmail(feed, template, senderMail, password, SMTPServer, senderMail)
 }
 

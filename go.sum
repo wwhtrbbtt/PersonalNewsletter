@@ -36,12 +36,16 @@ github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UV
 github.com/urfave/cli v1.22.3/go.mod h1:Gos4lmkARVdJ6EkW0WaNv/tZAAMe9V7XWyB60NtXRu0=
 github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210524211705-960c4ad0ec5f h1:FUcEnRnQ3y98p5yXfplsmRxjlUqmcF6DEEULIHDPbzE=
 github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210524211705-960c4ad0ec5f/go.mod h1:WEbt+CwoCr3k4goxivyMrmTO7UBKFZ/T1YCXv0CCdrM=
+github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210525082203-38efccdaf629 h1:8bPYU17a84bQgC6XCqBGifvo4td7j+HpF4QHjYsywas=
+github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210525082203-38efccdaf629/go.mod h1:WEbt+CwoCr3k4goxivyMrmTO7UBKFZ/T1YCXv0CCdrM=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525065038-2b521189bce8 h1:gnRiMbzrZKTOGu1uCrVpH+eTQy+Y+mlP/gK/zYsT12I=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525065038-2b521189bce8/go.mod h1:FZ/F5shCsL4mb1xaWBtw9wfhsDfb57g2nCUC06xVfNM=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525075425-78493a135945 h1:+84MMkzi+80cExo2sXbWsiW0x0Pc8QjzWlSHXwADMl0=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525075425-78493a135945/go.mod h1:FZ/F5shCsL4mb1xaWBtw9wfhsDfb57g2nCUC06xVfNM=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525082203-38efccdaf629 h1:NjcywLoFtyczdiGw4ooK4+amwI59iZJtV1TQ/udgXN8=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525082203-38efccdaf629/go.mod h1:FZ/F5shCsL4mb1xaWBtw9wfhsDfb57g2nCUC06xVfNM=
+github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525114846-858a733e4674 h1:yqjOHWdOSIBU2rqxRVrsf90ny3fI6gQm7gwKEvKT1Q8=
+github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525114846-858a733e4674/go.mod h1:FZ/F5shCsL4mb1xaWBtw9wfhsDfb57g2nCUC06xVfNM=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/net v0.0.0-20180218175443-cbe0f9307d01/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
 golang.org/x/net v0.0.0-20200202094626-16171245cfb2/go.mod h1:z5CRVTTTmAJ677TzLLGU+0bjPO0LkuOLi4/5GtJWs/s=
