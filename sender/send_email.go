@@ -10,10 +10,7 @@ func SendEmail(feed Feed, senderEmail, senderPassword, senderSMTP, username stri
 	m.SetHeader("From", senderEmail)
 	m.SetHeader("To", feed.Email)
 	m.SetHeader("Subject", feed.Feedname+" - Personalnewsletter")
-
-	// TODO - actual body of course
-	// feed.GetHTML() or something - Converts struct to HTML
-	m.SetBody("text/html", "Hello <b>world</b>!")
+	m.SetBody("text/html", feed.GetHTML("../template/email1.html")) // GetHTML converts the feed struct into HTML
 
 	// Authenticate
 	d := gomail.NewDialer(senderSMTP, 587, username, senderPassword)
