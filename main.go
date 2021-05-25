@@ -47,7 +47,5 @@ func main() {
 		fmt.Println("Pleace set the SMTPSERVER")
 		os.Exit(1)
 	}
-
-	fmt.Println(senderMail, password, SMTPServer)
 	sender.SendEmail(feed, senderMail, password, SMTPServer, senderMail)
 }
