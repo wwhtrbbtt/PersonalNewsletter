@@ -45,7 +45,7 @@ func init() {
 
 func main() {
 	var c Config
-	c.Email = "peet@drugabu.se"
+	c.Email = "pe3et@protonmail.com"
 	c.Feedname = "my cool feed"
 	c.Greetingname = "peet"
 	c.Time = "10:00"

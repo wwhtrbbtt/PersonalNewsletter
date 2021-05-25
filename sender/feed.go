@@ -104,7 +104,7 @@ func GetTextHTML(text string) string {
 func GetLinksHTML(links []aggregator.Link) string {
 	html := ""
 	for _, link := range links {
-		html += fmt.Sprintf(`<a href src="%s">%s</a><br>`, link.URL, link.Text)
+		html += fmt.Sprintf(`<a href="%s" target="_blank">%s</a><br>`, link.URL, link.Text)
 	}
 	return html
 }
