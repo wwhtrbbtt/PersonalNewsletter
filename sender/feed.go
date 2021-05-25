@@ -101,7 +101,7 @@ func GetTextHTML(text string) string {
 	`, text)
 }
 
-func GetLinksHTML(links []aggregator.Links) string {
+func GetLinksHTML(links []aggregator.Link) string {
 	html := ""
 	for _, link := range links {
 		html += fmt.Sprintf(`<a href src="%s">%s</a>`, link.URL, link.Text)
