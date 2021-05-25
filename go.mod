@@ -11,6 +11,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210524211705-960c4ad0ec5f
-	github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525075425-78493a135945
+	github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525082203-38efccdaf629
 	golang.org/x/net v0.0.0-20210521195947-fe42d452be8f // indirect
 )

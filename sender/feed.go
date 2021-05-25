@@ -40,8 +40,10 @@ func (f Feed) GetHTML(template string) string {
 			tmpHTML += GetButtonHTML(module.Button)
 		}
 		// TODO:
+		if len(module.Links) > 0 {
+			tmpHTML += GetLinksHTML(module.Links)
+		}
 		// module.Image
-		// module.Links
 
 		MODULES += tmpHTML
 	}
@@ -97,4 +99,12 @@ func GetTextHTML(text string) string {
 	return fmt.Sprintf(`
 	<p>%s</p>
 	`, text)
+}
+
+func GetLinksHTML(links []aggregator.Links) string {
+	html := ""
+	for _, link := range links {
+		html += fmt.Sprintf(`<a href src="%s">%s</a>`, link.URL, link.Text)
+	}
+	return html
 }

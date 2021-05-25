@@ -1,0 +1,8 @@
+[] configs.json -> sends daily newsletter.
+    Firebase comes later, first working prototype.
+[] Add a config system
+
+
+[] Add more modules
+[] Add firebase
+[] Make a frontend with vue.js (serverless with firebase and auth)

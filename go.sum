@@ -40,6 +40,8 @@ github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525065038-2b521189bce
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525065038-2b521189bce8/go.mod h1:FZ/F5shCsL4mb1xaWBtw9wfhsDfb57g2nCUC06xVfNM=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525075425-78493a135945 h1:+84MMkzi+80cExo2sXbWsiW0x0Pc8QjzWlSHXwADMl0=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525075425-78493a135945/go.mod h1:FZ/F5shCsL4mb1xaWBtw9wfhsDfb57g2nCUC06xVfNM=
+github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525082203-38efccdaf629 h1:NjcywLoFtyczdiGw4ooK4+amwI59iZJtV1TQ/udgXN8=
+github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525082203-38efccdaf629/go.mod h1:FZ/F5shCsL4mb1xaWBtw9wfhsDfb57g2nCUC06xVfNM=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/net v0.0.0-20180218175443-cbe0f9307d01/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
 golang.org/x/net v0.0.0-20200202094626-16171245cfb2/go.mod h1:z5CRVTTTmAJ677TzLLGU+0bjPO0LkuOLi4/5GtJWs/s=
