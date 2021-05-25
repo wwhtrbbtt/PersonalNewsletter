@@ -49,5 +49,5 @@ func main() {
 	}
 
 	fmt.Println(senderMail, password, SMTPServer)
-	sender.SendEmail(feed, senderMail, password, SMTPServer)
+	sender.SendEmail(feed, senderMail, password, SMTPServer, senderMail)
 }
