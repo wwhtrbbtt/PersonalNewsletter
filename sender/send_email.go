@@ -1,18 +1,19 @@
 package sender
 
-import (
-	"fmt"
-	"net/smtp"
-)
-
+// https://pkg.go.dev/gopkg.in/gomail.v2
 func SendEmail(feed Feed, senderEmail, senderPassword, senderSMTP string) {
-	auth := smtp.PlainAuth("", senderEmail, senderPassword, senderSMTP)
+	m := gomail.NewMessage()
+	m.SetHeader("From", senderEmail)
+	m.SetHeader("To", feed.Email)
+	m.SetHeader("Subject", feed.Feedname+" - Personalnewsletter")
+	m.SetBody("text/html", "Hello <b>Bob</b> and <i>Cora</i>!")
+	// m.Attach("/home/Alex/lolcat.jpg")
 
-	subject := fmt.Sprintf("%s - PersonalNewsletter\n", feed.Feedname)
-	mime := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-	body := fmt.Sprintf("<html><body><h1>Hello, %s</h1></body></html>", feed.Greetingname)
-	msg := []byte(subject + mime + body)
+	d := gomail.NewDialer(senderSMTP, 587, "", senderPassword)
 
-	smtp.SendMail(senderSMTP+":587", auth, senderEmail, []string{feed.Email}, msg)
+	// Send the email to Bob, Cora and Dan.
+	if err := d.DialAndSend(m); err != nil {
+		panic(err)
+	}
 
 }
