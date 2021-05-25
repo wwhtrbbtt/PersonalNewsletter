@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/joho/godotenv"
+	"github.com/mitchellh/mapstructure"
 	aggregator "github.com/wwhtrbbtt/PersonalNewsletter/aggregator"
 	sender "github.com/wwhtrbbtt/PersonalNewsletter/sender"
 )
@@ -44,39 +46,63 @@ func init() {
 }
 
 func main() {
-	var c Config
-	c.Email = "pe3et@protonmail.com"
-	c.Feedname = "my cool feed"
-	c.Greetingname = "peet"
-	c.Time = "10:00"
+	secrets := GetSecrets()
+	fs := Firestore{}
+	fs.Collection = "NewLetters"
+	fs.Connect(secrets.FireStoreKeyPath, secrets.FireStoreProjectID)
 
-	var m ModuleConfig
-	m.Name = "rss-feed"
-	AddSetting(&m, "URL", "https://github.com/wwhtrbbtt/PersonalNewsletter/commits.atom")
-	AddSetting(&m, "count", "5")
+	// var c Config
+	// c.Email = "pe3et@protonmail.com"
+	// c.Feedname = "my cool feed"
+	// c.Greetingname = "peet"
+	// c.Time = "10:00"
 
-	c.Modules = append(c.Modules, m)
+	// var m ModuleConfig
+	// m.Name = "rss-feed"
+	// AddSetting(&m, "URL", "https://github.com/wwhtrbbtt/PersonalNewsletter/commits.atom")
+	// AddSetting(&m, "count", "5")
 
-	feed := ConfigToFeed(c)
+	// c.Modules = append(c.Modules, m)
+	// err := fs.SetDoc("test", c)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// // j, _ := json.MarshalIndent(c, "", "    ")
+	// // fmt.Println(string(j))
+	// os.Exit(1)
 
-	senderMail, exists := os.LookupEnv("SENDEREMAIL")
-	if !exists {
-		fmt.Println("Pleace set the SENDERMAIL")
-		os.Exit(1)
+	// c := GetConfig("config.json")
+
+	// feed := ConfigToFeed(c)
+
+	for {
+		// get current time stamp
+		current := time.Now().Format("15:04") // gotta love golang...
+
+		// get all letters that should be send in this minute
+		docs, err := fs.WhereDoc("Time", "==", current)
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+
+		fmt.Printf("[*] Checking at %s - %d Newsletters to send\n", current, len(docs))
+
+		for _, letter := range docs {
+			var c Config
+			err := mapstructure.Decode(letter, &c)
+			if err != nil {
+				fmt.Println(err.Error())
+				continue
+			}
+
+			feed := ConfigToFeed(c)
+			fmt.Printf("	[*] Sending newsletter to %s\n", feed.Email)
+			sender.SendEmail(feed, template, secrets.SenderMail, secrets.Password, secrets.SMTPServer, secrets.SenderMail)
+		}
+		time.Sleep(time.Minute * 1)
 	}
 
-	password, exists := os.LookupEnv("PASSWORD")
-	if !exists {
-		fmt.Println("Pleace set the PASSWORD")
-		os.Exit(1)
-	}
-
-	SMTPServer, exists := os.LookupEnv("SMTPSERVER")
-	if !exists {
-		fmt.Println("Pleace set the SMTPSERVER")
-		os.Exit(1)
-	}
-	sender.SendEmail(feed, template, senderMail, password, SMTPServer, senderMail)
 }
 
 func ConfigToFeed(c Config) sender.Feed {
@@ -141,4 +167,66 @@ func FetchData(c ModuleConfig) (aggregator.Module, error) {
 		return aggregator.Module{}, errors.New("couldn't find module (FetchData)")
 	}
 
+}
+
+// func GetConfig(path string) Config {
+// 	data, err := ioutil.ReadFile(path)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	var config Config
+// 	err = json.Unmarshal(data, &config)
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// 	return config
+// }
+
+type Secrets struct {
+	SenderMail         string
+	Password           string
+	SMTPServer         string
+	FireStoreProjectID string
+	FireStoreKeyPath   string
+}
+
+func GetSecrets() Secrets {
+	// get secrets from .env file
+	senderMail, exists := os.LookupEnv("SENDEREMAIL")
+	if !exists {
+		fmt.Println("Pleace set the SENDERMAIL")
+		os.Exit(1)
+	}
+
+	password, exists := os.LookupEnv("PASSWORD")
+	if !exists {
+		fmt.Println("Please set the PASSWORD")
+		os.Exit(1)
+	}
+
+	SMTPServer, exists := os.LookupEnv("SMTPSERVER")
+	if !exists {
+		fmt.Println("Please set the SMTPSERVER")
+		os.Exit(1)
+	}
+
+	fireStoreProjectID, exists := os.LookupEnv("FSPROJID")
+	if !exists {
+		fmt.Println("Please set the FSPROJID")
+		os.Exit(1)
+	}
+
+	fireStoreKeyPath, exists := os.LookupEnv("FSKEYPATH")
+	if !exists {
+		fmt.Println("Please set the FSKEYPATH")
+		os.Exit(1)
+	}
+
+	return Secrets{
+		SenderMail:         senderMail,
+		Password:           password,
+		SMTPServer:         SMTPServer,
+		FireStoreProjectID: fireStoreProjectID,
+		FireStoreKeyPath:   fireStoreKeyPath,
+	}
 }
