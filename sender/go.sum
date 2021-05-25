@@ -25,6 +25,8 @@ github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UV
 github.com/urfave/cli v1.22.3/go.mod h1:Gos4lmkARVdJ6EkW0WaNv/tZAAMe9V7XWyB60NtXRu0=
 github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210524194512-de732630c857 h1:+noB+Zw45BOB/DgK2v1qcfu2mkdNV/64gQ3eQY7N+As=
 github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210524194512-de732630c857/go.mod h1:WEbt+CwoCr3k4goxivyMrmTO7UBKFZ/T1YCXv0CCdrM=
+github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210524211705-960c4ad0ec5f h1:FUcEnRnQ3y98p5yXfplsmRxjlUqmcF6DEEULIHDPbzE=
+github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210524211705-960c4ad0ec5f/go.mod h1:WEbt+CwoCr3k4goxivyMrmTO7UBKFZ/T1YCXv0CCdrM=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/net v0.0.0-20180218175443-cbe0f9307d01/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
 golang.org/x/net v0.0.0-20200202094626-16171245cfb2/go.mod h1:z5CRVTTTmAJ677TzLLGU+0bjPO0LkuOLi4/5GtJWs/s=
