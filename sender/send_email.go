@@ -1,5 +1,7 @@
 package sender
 
+import gomail "gopkg.in/gomail.v2"
+
 // https://pkg.go.dev/gopkg.in/gomail.v2
 func SendEmail(feed Feed, senderEmail, senderPassword, senderSMTP string) {
 	m := gomail.NewMessage()
