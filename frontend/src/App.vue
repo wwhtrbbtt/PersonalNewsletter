@@ -1,20 +1,23 @@
 <template>
 <div id="app">
-  <Settings />
-  <!-- <home /> -->
+  <navbar></navbar>
+  <router-view></router-view>
+  <span class="navbar-toggler-icon"></span>
 </div>
 </template>
 
 <script>
 // import Home from './components/Home.vue'
-import Settings from './components/Settings.vue'
+// import Dashboard from './components/Dashboard.vue'
 import { db } from './dbs'
+import navbar from "./components/Navbar";
 
 export default {
   name: 'App',
   components: {
+    navbar
     // Home,
-    Settings
+    // Dashboard
   },
     data() {
     return {
@@ -29,14 +32,14 @@ export default {
 
 
 </script>
-
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
+  margin: 0;
 }
 </style>

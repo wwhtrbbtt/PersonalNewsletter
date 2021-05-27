@@ -29,7 +29,7 @@
 import { db } from '../dbs'
 
 export default {
-  name: 'Settings',
+  name: 'Dashboard',
 
   data: () => ({ 
     config: {}

@@ -1,8 +1,19 @@
-[] configs.json -> sends daily newsletter.
+[X] configs.json -> sends daily newsletter.
     Firebase comes later, first working prototype.
-[] Add a config system
+[X] Add a config system
+[X] Implement firebase
+
+[] Make a frontend with vue.js 
+    [X] Connect to firestore
+    [X] Make multiple routes
+    [] Add authentication
+    [] Users get their letters displayed
+    [] Finish config system (let users make new letters, edit them, login logout, settings)
+
 
 
 [] Add more modules
-[] Add firebase
-[] Make a frontend with vue.js (serverless with firebase and auth)
+    [] Recipe of the day
+    [] Weather
+    [] Stocks
+    [] Horoscope

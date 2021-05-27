@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
-// import firebase from 'firebase/app'
-// import 'firebase/firestore'
+import router from "./routes/index";
 import { firestorePlugin } from 'vuefire'
-Vue.use(firestorePlugin)
 
+Vue.use(firestorePlugin)
 Vue.config.productionTip = false
 
 new Vue({
+  router,
   render: h => h(App),
 }).$mount('#app')
 

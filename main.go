@@ -145,7 +145,7 @@ func CheckEqualSettings(m1, m2 ModuleConfig) bool {
 	}
 
 	// check all setting names
-	for count, _ := range m2.Settings {
+	for count := range m2.Settings {
 		if m1.Settings[count].Name != m2.Settings[count].Name {
 			return false
 		}
