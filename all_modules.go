@@ -6,16 +6,15 @@ func GetAllModules() Config {
 	/// rss feed /// (count, url)
 	var rss ModuleConfig
 	rss.Name = "rss-feed"
-	AddSetting(&rss, "URL", "http://feeds.bbci.co.uk/news/technology/rss.xml")
-	AddSetting(&rss, "count", "5")
+	AddSetting(&rss, "URL", "")
+	AddSetting(&rss, "count", 1)
 	c.Modules = append(c.Modules, rss)
 
 	return c
 }
 
-func AddSetting(m *ModuleConfig, name, value string) {
+func AddSetting(m *ModuleConfig, name, value interface{}) {
 	var setting ModuleConfigSetting
-	setting.Name = name
 	setting.Value = value
 	m.Settings = append(m.Settings, setting)
 }

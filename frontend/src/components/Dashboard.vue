@@ -1,71 +1,264 @@
 <!-- https://vuefire.vuejs.org/vuefire/querying.html#one-time-read -->
 <!-- https://rimdev.io/the-v-for-key/ -->
+
 <template>
-  <div class="main">
-      <h1>Settings</h1>
-      <button v-on:click="saveChanges">save changes</button><br><br>
-      Letter name<br>
-      <input type="text" v-model="config.Feedname" /><br><br>
-      Letter time<br>
-      <input type="time" v-model="config.Time" /><br><br>
-      Greeting name<br>
-      <input v-model="config.Greetingname" /><br><br>
-      Email address<br>
-      <input v-model="config.Email" /><br><br>
+  <div class="main" id="main" v-if="show">
+      <h1>Edit your newsletter</h1>
+      
+      <label class="field field_v1">
+        <input class="field__input" placeholder="eg. Sport newsletter" type="text" v-model="config.Feedname" /><br><br>
+            <span class="field__label-wrap">
+              <span class="field__label">Newsletter name</span>
+            </span>
+      </label>
+      <br><br>
+
+      <label class="field field_v1">
+        <input class="field__input" placeholder="eg. 10:00" type="text" v-model="config.Time" /><br><br>
+            <span class="field__label-wrap">
+              <span class="field__label">Newsletter time</span>
+            </span>
+      </label>
+      <br>
+      <div v-if="timeWarning != ''" style="color: red;"><br>{{ timeWarning }}</div>
+      <br>
+      <label class="field field_v1">
+        <input class="field__input" placeholder="eg. Peet" type="text" v-model="config.Greetingname" /><br><br>
+            <span class="field__label-wrap">
+              <span class="field__label">Your name</span>
+            </span>
+      </label>
+      <br><br>
+
+      <label class="field field_v1">
+        <input class="field__input" placeholder="eg. name@email.com" type="text" v-model="config.Email" /><br><br>
+            <span class="field__label-wrap">
+              <span class="field__label">Your E-mail</span>
+            </span>
+      </label>
+      <br><br>
+
+      <h1>Modules in your newsletter</h1>
+
+      <p v-if="!config.Modules.length">
+         No modules yet - add one!
+      </p>
+
 
       <div v-for="(module, index) in config.Modules" :key="index">
-        <hr>
-        <h2>{{ module.Name }}</h2>
+
+        <i><h2>{{ modulesInfo[module.Name].ShowName }}</h2></i>
+        <p>{{ modulesInfo[module.Name].Description }}</p>
+        
         <div v-for="(setting, index2) in module.Settings" :key="index2">
-          <h3>{{ setting.Name }}</h3>
-            <input v-model="setting.Value" /><br><br>
+          <!-- {{ modulesInfo[module.Name].Settings[index2] }} -->
+          <label class="field field_v1">
+             <input class="field__input" :type="parseType(modulesInfo[module.Name].Settings[index2].Type)" v-model="setting.Value" /><br><br>
+                <span class="field__label-wrap">
+                  <span class="field__label">{{ setting.Name }}</span>
+                  
+                </span>
+          </label>
+          <br><br>
         </div>
+        <button class="save-button" v-on:click="removeModule(index)">Remove module</button>
       </div>
+
+      <br><br>
+        <select v-model="chosenModule">
+            <option v-for="(module, index) in possibleModules" :value="module.InternalName" v-bind:key="index" >{{ module.ShowName }}</option>
+        </select> 
+        <br>
+        <button class="save-button" v-on:click="addModule">Add module</button>
+      <br><br>
+
+    <br>
+    <div style="text-align: center;">
+      <button type="button" class="save-button" v-on:click="saveChanges">Done</button><br><br>
+      <button type="button" class="save-button" v-on:click="deleteLetter">Delete</button><br><br>
+    </div>
   </div>
 </template>
 
 <script>
-
-import { db } from '../dbs'
+import db from "../main"
+import firebase from "firebase";
 
 export default {
   name: 'Dashboard',
 
   data: () => ({ 
-    config: {}
+    config: {
+      Modules: [],
+    },
+    possibleModules: [],
+    modulesInfo: {},
+    show: false,
+    chosenModule: "",
    }),
 
-  created() {
-    this.loadLetter()
+   created() {
+    let id = this.$route.query.letter
+    firebase.auth().onAuthStateChanged( user => {
+        if (user) {
+            this.loadPossibleModules()
+            this.loadLetter(id)
+
+
+        } else {
+            console.log("not logged in")
+        }
+    })
+  },
+
+  computed: {
+    timeWarning() {
+      try {
+        let hours = parseInt(this.config.Time.split(":")[0])
+        let minutes = parseInt(this.config.Time.split(":")[1])
+
+        if (this.config.Time.match(/\d{2}:\d{2}/)[0] == this.config.Time && hours < 24 && minutes < 60) {
+          return ""
+        }
+      } catch {
+        return "Invalid time. Use the 24h format (eg.  20:00)"
+      }
+      return "Invalid time. Use the 24h format (eg.  20:00)"
+    }
   },
 
   methods: {
     saveChanges: function() {
+
+      if (this.timeWarning != "") {
+        alert("Couldn't save letter")
+        return
+      }
+
+      // the numbers from the input are always strings. We wanna parse them back to ints
+      this.config.Modules.forEach(module => {
+        let count = 0
+        module.Settings.forEach(setting => {
+          if (this.modulesInfo[module.Name].Settings[count].Type == "int") {
+            setting.Value = parseInt(setting.Value)
+          }
+          count++
+        })
+      })
+
       console.log("saved")
-      console.log(this.config)
+      // console.log(this.config)
+      let id = this.$route.query.letter
       db.collection("NewLetters")
-      .doc("test")
+      .doc(id)
       .set(this.config)
       .then(() => {
-        console.log('user updated!')
-        alert("saved")
+        console.log('letter updated!')
+        // alert("Saved all changes")
+        this.$router.push({ name: 'letters' })
       })
     },
 
-    loadLetter: function() {
-      db.collection("NewLetters")
-      .doc("test")
-      .get()
+    loadLetter: function(id) {
+      db.collection("NewLetters").doc(id).get()
       .then(snapshot => {
         const data = snapshot.data()
         this.config = data
         console.log(data)
+        this.show = true
       })
+      .catch(err => {
+        console.log(err.message)
+        alert(err.message)
+      })
+    },
+
+    loadPossibleModules: function() {
+      db.collection("misc").doc("newModules").get()
+      .then(snapshot => {
+        this.possibleModules = snapshot.data().Modules
+        console.log(this.possibleModules)
+      })
+      .then( () => {
+          // make a dict out of the data.
+
+          let tmp = {}
+          console.log(typeof(this.possibleModules))
+          this.possibleModules.forEach(module => {
+            tmp[module.InternalName] = module
+          })
+
+          this.modulesInfo = tmp
+      })
+      .catch(err => {
+        console.log(err.message)
+        alert(err.message)
+      })
+    },
+
+    deleteLetter: function() {
+      let id = this.$route.query.letter
+      db.collection("NewLetters").doc(id).delete()
+        .then(() => {
+          console.log("deleted letter")
+          this.$router.push({ name: 'letters' })
+        })
+        .catch(err => {
+          alert(err.message)
+        }) 
+    },
+    addModule: function() {
+      console.log(this.chosenModule)
+      const m = this.modulesInfo[this.chosenModule];
+      // console.log(m)
+      if (this.chosenModule == "") {
+        return
+      }
+
+      // return
+      console.log(m);
+      let settings = [];
+
+      m.Settings.forEach(function(setting) {
+        let val = null
+        if (setting.Type == "str") {
+          val = ""
+        } else if (setting.Type == "int") {
+          val = 5
+        } else { // more types in the future
+          val = ""
+        }
+
+         settings.push({
+          Name: setting.InternalName,
+          Value: val,
+        })
+      })
+      this.config.Modules.push({
+        Name: this.chosenModule,
+        Settings: settings,
+      })
+    },
+    parseType: function (raw) {
+      if (raw == "int") {
+        return "number"
+      } else if (raw == "string") {
+        return "text"
+      } else {
+        return "text"
+      }
+    },
+    removeModule: function (index) {
+      console.log(index)
+      this.config.Modules.splice(parseInt(index), 1)
+      console.log(this.config)
     }
-  },
+  }, 
+
+
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 </style>

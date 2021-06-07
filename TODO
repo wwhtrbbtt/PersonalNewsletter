@@ -1,19 +1,28 @@
-[X] configs.json -> sends daily newsletter.
-    Firebase comes later, first working prototype.
 [X] Add a config system
+[X] configs.json -> sends daily newsletter.
 [X] Implement firebase
 
-[] Make a frontend with vue.js 
+[X] Make a frontend with Vue
     [X] Connect to firestore
     [X] Make multiple routes
-    [] Add authentication
-    [] Users get their letters displayed
-    [] Finish config system (let users make new letters, edit them, login logout, settings)
-
-
+    [X] The site pretty
+    [X] Add authentication
+    ~[X] Create profile on signup~ - now solved differently
+    [X] Users get their letters displayed
+    [X] Let users add Modules to letters
+        [X] Have a central register of all modules, with info on settings
+	
+    [] fix one-time bug "not authored" on login
+    [] Figure something out for timezones (oh god, fuck timezones)
+    
+General stuff:
+    [] Have different themes
+    [] Let users change colors of email 
+    [] Email prefab (sport, international news, tech, ...)
 
 [] Add more modules
     [] Recipe of the day
     [] Weather
     [] Stocks
     [] Horoscope
+    [] Subreddits

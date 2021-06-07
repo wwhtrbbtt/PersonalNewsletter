@@ -1,55 +1,45 @@
 <template>
-<div class="wrapper">
+<div class="main" id="navbar">
   <nav class="topnav">
         <router-link v-bind:class="{active: currentRouteName == 'home'}" to="/">Home</router-link>
-        <router-link v-bind:class="{active: currentRouteName == 'dashboard'}" to="/dashboard/">Dashboard</router-link>
-
+        <router-link v-if="loggedIn" v-bind:class="{active: currentRouteName == 'letters'}" to="/Letters/">Letters</router-link>
+        <router-link v-if="loggedIn" v-bind:class="{active: currentRouteName == 'settings'}" to="/settings/">Settings</router-link>
+        <router-link v-if="!loggedIn" v-bind:class="{active: currentRouteName == 'register'}" to="/register/">Register</router-link>
+        <router-link v-if="!loggedIn" v-bind:class="{active: currentRouteName == 'login'}" to="/login/">Login</router-link>
   </nav>
 </div>
 </template>
 
 <script>
+import firebase from "firebase";
 
 export default {
-
-computed: {
-    currentRouteName() {
-        return this.$route.name;
+  data: function() {
+    return {
+      loggedIn: false
     }
-}
+  },
+  created: function() {
+        firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            this.loggedIn = true
+            console.log("logged in")
+        } else {
+          this.loggedIn = false
+          console.log("not logged in")
+        }
+        });
+  },
+
+  computed: {
+      currentRouteName() {
+        return this.$route.name;
+      },
+  }
 }
 </script>
 
 <style scoped>
 
-template {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.topnav {
-  overflow: hidden;
-  background-color: #333;
-}
-
-.topnav a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.topnav a.active {
-  background-color: #04AA6D;
-  color: white;
-}
 
 </style>

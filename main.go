@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -13,6 +12,7 @@ import (
 	sender "github.com/wwhtrbbtt/PersonalNewsletter/sender"
 )
 
+var DEBUG = true
 var template = "./template/email1.html"
 
 // A config tells the program what data a program wants.
@@ -32,9 +32,8 @@ type ModuleConfig struct {
 }
 
 type ModuleConfigSetting struct {
-	Name  string `json:"name"`  // ex. feed-url
-	Value string `json:"value"` // ex. https://github.com/wwhtrbbtt/PersonalNewsletter/commits.atom
-
+	Name  string      `json:"name"`  // ex. feed-url
+	Value interface{} `json:"value"` // ex. https://github.com/wwhtrbbtt/PersonalNewsletter/commits.atom
 }
 
 func init() {
@@ -46,34 +45,27 @@ func init() {
 }
 
 func main() {
+
+	// fmt.Println(GetAllModules())
+	// os.Exit(0)
 	secrets := GetSecrets()
 	fs := Firestore{}
 	fs.Collection = "NewLetters"
 	fs.Connect(secrets.FireStoreKeyPath, secrets.FireStoreProjectID)
 
-	// var c Config
-	// c.Email = "pe3et@protonmail.com"
-	// c.Feedname = "my cool feed"
-	// c.Greetingname = "peet"
-	// c.Time = "10:00"
+	if len(os.Args) > 1 {
+		if os.Args[1] == "sync" {
+			modules := getAllModules()
+			fs.Collection = "misc"
 
-	// var m ModuleConfig
-	// m.Name = "rss-feed"
-	// AddSetting(&m, "URL", "https://github.com/wwhtrbbtt/PersonalNewsletter/commits.atom")
-	// AddSetting(&m, "count", "5")
-
-	// c.Modules = append(c.Modules, m)
-	// err := fs.SetDoc("test", c)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// // j, _ := json.MarshalIndent(c, "", "    ")
-	// // fmt.Println(string(j))
-	// os.Exit(1)
-
-	// c := GetConfig("config.json")
-
-	// feed := ConfigToFeed(c)
+			err := fs.SetDoc("newModules", modules)
+			if err != nil {
+				panic(err)
+			}
+			fmt.Println("Successfully synced all modules")
+			os.Exit(0)
+		}
+	}
 
 	for {
 		// get current time stamp
@@ -97,6 +89,13 @@ func main() {
 			}
 
 			feed := ConfigToFeed(c)
+			if DEBUG {
+				fmt.Println("Raw config: ")
+				fmt.Println(letter)
+				fmt.Println("Raw -> Config object:")
+				fmt.Println(c)
+			}
+			// fmt.Println(letter)
 			fmt.Printf("	[*] Sending newsletter to %s\n", feed.Email)
 			sender.SendEmail(feed, template, secrets.SenderMail, secrets.Password, secrets.SMTPServer, secrets.SenderMail)
 		}
@@ -115,7 +114,7 @@ func ConfigToFeed(c Config) sender.Feed {
 
 	for _, config := range c.Modules {
 		for _, module := range GetAllModules().Modules { // module = demo module, all required data given
-			if CheckEqualSettings(config, module) { // valid settings
+			if !CheckEqualSettings(config, module) { // valid settings
 				// fetch data for the module
 				data, err := FetchData(config)
 				if err != nil {
@@ -124,6 +123,10 @@ func ConfigToFeed(c Config) sender.Feed {
 				}
 				// if no errors, append to modules
 				s.Modules = append(s.Modules, data)
+			} else {
+				fmt.Println("invalid settings detected!")
+				fmt.Println(module)
+				fmt.Println(config)
 			}
 		}
 	}
@@ -136,17 +139,30 @@ func CheckEqualSettings(m1, m2 ModuleConfig) bool {
 
 	// check name
 	if m1.Name != m2.Name {
+		if DEBUG {
+			fmt.Println("Module not equal: invalid name")
+			fmt.Println(m1.Name, m2.Name)
+		}
 		return false
 	}
 
 	// check lenght
 	if len(m1.Settings) != len(m2.Settings) {
+		if DEBUG {
+			fmt.Println("Module not equal: invalid lengh")
+			fmt.Printf("Len of m1: %d\n", len(m1.Settings))
+			fmt.Printf("Len of m2: %d\n", len(m2.Settings))
+		}
 		return false
 	}
 
 	// check all setting names
 	for count := range m2.Settings {
 		if m1.Settings[count].Name != m2.Settings[count].Name {
+			if DEBUG {
+				fmt.Println("Module not equal: names")
+				fmt.Println(m1.Settings[count].Name, m2.Settings[count].Name)
+			}
 			return false
 		}
 	}
@@ -156,31 +172,11 @@ func CheckEqualSettings(m1, m2 ModuleConfig) bool {
 func FetchData(c ModuleConfig) (aggregator.Module, error) {
 	switch c.Name {
 	case "rss-feed":
-		// 0: URL, 1: Count
-		i, err := strconv.Atoi(c.Settings[1].Value)
-		if err != nil {
-			fmt.Println(err)
-			return aggregator.Module{}, errors.New("couldn't parse settings (FetchData)")
-		}
-		return aggregator.FetchRssFeed(c.Settings[0].Value, i)
+		return aggregator.FetchRssFeed(c.Settings[0].Value.(string), int(c.Settings[1].Value.(int64)))
 	default:
 		return aggregator.Module{}, errors.New("couldn't find module (FetchData)")
 	}
-
 }
-
-// func GetConfig(path string) Config {
-// 	data, err := ioutil.ReadFile(path)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	var config Config
-// 	err = json.Unmarshal(data, &config)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	return config
-// }
 
 type Secrets struct {
 	SenderMail         string

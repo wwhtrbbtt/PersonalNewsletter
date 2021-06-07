@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "firebase": "^8.6.2",
+    "firebase": "^8.6.3",
+    "tiny-cookie": "^2.3.2",
     "vue": "^2.6.11",
     "vue-router": "^3.5.1",
     "vuefire": "^2.2.5"
