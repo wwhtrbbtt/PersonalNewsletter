@@ -51,5 +51,12 @@ func getAllModules() allModules {
 	}
 	modules = append(modules, m)
 
+	// QOTD
+	m = Module{
+		InternalName: "qotd",
+		ShowName:     "Quote of the day",
+		Description:  "Get a deep quote to think about",
+	}
+
 	return allModules{Modules: modules}
 }

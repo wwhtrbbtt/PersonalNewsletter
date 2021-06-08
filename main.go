@@ -111,60 +111,15 @@ func ConfigToFeed(c Config) sender.Feed {
 	s.Time = c.Time
 
 	for _, config := range c.Modules {
-		for _, module := range GetAllModules().Modules { // module = demo module, all required data given
-			if !CheckEqualSettings(config, module) { // valid settings
-				// fetch data for the module
-				data, err := FetchData(config)
-				if err != nil {
-					fmt.Println(err)
-					continue
-				}
-				// if no errors, append to modules
-				s.Modules = append(s.Modules, data)
-			} else {
-				fmt.Println("invalid settings detected!")
-				fmt.Println(module)
-				fmt.Println(config)
-			}
+		data, err := FetchData(config)
+		if err != nil {
+			fmt.Println(err)
+			continue
 		}
+		s.Modules = append(s.Modules, data)
 	}
 	return s
 
-}
-func CheckEqualSettings(m1, m2 ModuleConfig) bool {
-	// checks if a setting is valid
-	// m1 = user input, m2 = valid
-
-	// check name
-	if m1.Name != m2.Name {
-		if DEBUG {
-			fmt.Println("Module not equal: invalid name")
-			fmt.Println(m1.Name, m2.Name)
-		}
-		return false
-	}
-
-	// check lenght
-	if len(m1.Settings) != len(m2.Settings) {
-		if DEBUG {
-			fmt.Println("Module not equal: invalid lengh")
-			fmt.Printf("Len of m1: %d\n", len(m1.Settings))
-			fmt.Printf("Len of m2: %d\n", len(m2.Settings))
-		}
-		return false
-	}
-
-	// check all setting names
-	for count := range m2.Settings {
-		if m1.Settings[count].Name != m2.Settings[count].Name {
-			if DEBUG {
-				fmt.Println("Module not equal: names")
-				fmt.Println(m1.Settings[count].Name, m2.Settings[count].Name)
-			}
-			return false
-		}
-	}
-	return true
 }
 
 type Secrets struct {

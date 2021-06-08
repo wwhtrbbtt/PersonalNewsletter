@@ -19,6 +19,7 @@ General stuff:
     [] Have different themes
     [] Let users change colors of email 
     [] Email prefab (sport, international news, tech, ...)
+    [] Re-implement checking if a config is valid
 
 [] Add more modules
     [] Recipe of the day

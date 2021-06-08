@@ -3,6 +3,7 @@ package aggregator
 // Get the first n items of a RSS feed
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 
@@ -21,6 +22,10 @@ func _GetSiteName(url string) string {
 }
 func FetchRssFeed(url string, count int) (Module, error) {
 	var m Module
+
+	if url == "" || count < 1 {
+		return m, errors.New("URL can't be empty and count can't be below 1")
+	}
 	siteName := _GetSiteName(url)
 
 	fp := gofeed.NewParser()

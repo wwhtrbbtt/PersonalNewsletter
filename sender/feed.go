@@ -98,7 +98,7 @@ func GetTitleHTML(title string) string {
 func GetTextHTML(text string) string {
 	return fmt.Sprintf(`
 	<p>%s</p>
-	`, text)
+	`, strings.ReplaceAll(text, "\n", "<br>"))
 }
 
 func GetLinksHTML(links []aggregator.Link) string {
