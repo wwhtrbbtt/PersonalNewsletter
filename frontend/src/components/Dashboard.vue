@@ -52,7 +52,7 @@
         <br><br>
 
         </div>
-        <button class="save-button s-b-small" v-on:click="removeModule(index)">Remove module</button>
+        <button class="save-button s-b-small" v-on:click="removeModule(index)">Remove</button>
       </div>
 
       <br><br>
@@ -73,7 +73,13 @@
 
 <script>
 import db from "../main"
-import firebase from "firebase";
+
+import firebase from 'firebase/app';
+import 'firebase/auth';
+// import firebase from 'firebase/app';
+
+
+
 import Input from './ui/Input.vue';
 
 export default {

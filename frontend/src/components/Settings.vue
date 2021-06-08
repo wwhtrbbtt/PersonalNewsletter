@@ -22,8 +22,10 @@
 </template>
 
 <script>
-import { getCookie, setCookie } from 'tiny-cookie'
-import firebase from "firebase";
+// import { getCookie, setCookie } from 'tiny-cookie'
+//import firebase from "firebase";
+import firebase from 'firebase/app';
+import 'firebase/auth'
 
 export default {
     created() {
@@ -38,36 +40,36 @@ export default {
             }
         });
 
-        if (getCookie("theme") == null) {
-            setCookie('theme', 'pastel', { expires: '1Y' });
-            this.currentColorScheme = "pastel"
-        } else {
-            this.currentColorScheme = getCookie("theme")
-        }
-        this.applyColor()
+        // if (getCookie("theme") == null) {
+        //     setCookie('theme', 'pastel', { expires: '1Y' });
+        //     this.currentColorScheme = "pastel"
+        // } else {
+        //     this.currentColorScheme = getCookie("theme")
+        // }
+        // this.applyColor()
 
 
     },
 
     methods: {
-        applyColor() {
-            console.log(this.currentColorScheme)
-            setCookie('theme', this.currentColorScheme, { expires: '1Y' })
+        // applyColor() {
+        //     console.log(this.currentColorScheme)
+        //     setCookie('theme', this.currentColorScheme, { expires: '1Y' })
 
-            // Thanke WmeAllen :)
+        //     // Thanke WmeAllen :)
 
-            let colors = this.colorSchemes[this.currentColorScheme]
-            document.documentElement.style.setProperty('--text-dark', "#" + colors[0]); // text on page
-            document.documentElement.style.setProperty('--text-bright', "#" + colors[1]); // text in navbar
-            document.documentElement.style.setProperty('--background', "#" + colors[2]); // backrgound of site
+        //     let colors = this.colorSchemes[this.currentColorScheme]
+        //     document.documentElement.style.setProperty('--text-dark', "#" + colors[0]); // text on page
+        //     document.documentElement.style.setProperty('--text-bright', "#" + colors[1]); // text in navbar
+        //     document.documentElement.style.setProperty('--background', "#" + colors[2]); // backrgound of site
 
-            document.documentElement.style.setProperty('--ui1', "#" + colors[3]); // active input
-            document.documentElement.style.setProperty('--ui2', "#" + colors[4]); // inactive input
+        //     document.documentElement.style.setProperty('--ui1', "#" + colors[3]); // active input
+        //     document.documentElement.style.setProperty('--ui2', "#" + colors[4]); // inactive input
 
-            document.documentElement.style.setProperty('--nav1', "#" + colors[5]); // hover navbar
-            document.documentElement.style.setProperty('--nav2', "#" + colors[6]); // inactive navbar
-            document.documentElement.style.setProperty('--nav3', "#" + colors[7]); // active navbar
-        },
+        //     document.documentElement.style.setProperty('--nav1', "#" + colors[5]); // hover navbar
+        //     document.documentElement.style.setProperty('--nav2', "#" + colors[6]); // inactive navbar
+        //     document.documentElement.style.setProperty('--nav3', "#" + colors[7]); // active navbar
+        // },
         logout: function() {
             firebase
                 .auth()
@@ -83,18 +85,18 @@ export default {
             },
     },
     data: () => ({ 
-        currentColorScheme: "pastel",
+        // currentColorScheme: "pastel",
         user: {},
         show: false,
-        colorSchemes: {
-            "pastel": 
-                ["000000", "f8f8f8", "ffe8d6", "cb997e", "ddbea9", "b7b7a4", "a5a58d", "6b705c"],
-            "slight": 
-                ["000", "000", "bbb", "ddd", "ccc", "fff", "888", "6b705c"],
-            "sdark":
-                ["fff", "000", "000", "bbb", "ccc", "000", "888", "6b705c"]
-                // ["f8f8f8", "000000", "F6B48E", "CC978E", "F6B48E", "C0BDA5", "261447", "6b705c"]
-        },
+        // colorSchemes: {
+        //     "pastel": 
+        //         ["000000", "f8f8f8", "ffe8d6", "cb997e", "ddbea9", "b7b7a4", "a5a58d", "6b705c"],
+        //     "slight": 
+        //         ["000", "000", "bbb", "ddd", "ccc", "fff", "888", "6b705c"],
+        //     "sdark":
+        //         ["fff", "000", "000", "bbb", "ccc", "000", "888", "6b705c"]
+        //         // ["f8f8f8", "000000", "F6B48E", "CC978E", "F6B48E", "C0BDA5", "261447", "6b705c"]
+        // },
    }),
 }
 </script>
