@@ -219,22 +219,24 @@ export default {
       // return
       console.log(m);
       let settings = [];
+      if (m.Settings != null) {
+        m.Settings.forEach(function(setting) {
+          let val = null
+          if (setting.Type == "str") {
+            val = ""
+          } else if (setting.Type == "int") {
+            val = 5
+          } else { // more types in the future
+            val = ""
+          }
 
-      m.Settings.forEach(function(setting) {
-        let val = null
-        if (setting.Type == "str") {
-          val = ""
-        } else if (setting.Type == "int") {
-          val = 5
-        } else { // more types in the future
-          val = ""
-        }
-
-         settings.push({
-          Name: setting.InternalName,
-          Value: val,
+          settings.push({
+            Name: setting.InternalName,
+            Value: val,
+          })
         })
-      })
+      } 
+
       this.config.Modules.push({
         Name: this.chosenModule,
         Settings: settings,

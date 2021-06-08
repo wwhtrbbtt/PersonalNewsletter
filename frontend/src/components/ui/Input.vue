@@ -19,7 +19,6 @@ export default {
     name: "Input",
     props: {
         value: {
-            type: String,
             required: true,
         },
         placeholder: {

@@ -45,7 +45,7 @@ func (f Feed) GetHTML(template string) string {
 		}
 		// module.Image
 
-		MODULES += tmpHTML
+		MODULES += tmpHTML + "<br><br>"
 	}
 
 	TITLE := f.Feedname + " - PersonalNewsletter"

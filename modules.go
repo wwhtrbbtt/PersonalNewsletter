@@ -57,6 +57,7 @@ func getAllModules() allModules {
 		ShowName:     "Quote of the day",
 		Description:  "Get a deep quote to think about",
 	}
+	modules = append(modules, m)
 
 	return allModules{Modules: modules}
 }

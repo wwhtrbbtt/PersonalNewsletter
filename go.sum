@@ -185,6 +185,8 @@ github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210524211705-960c4ad
 github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210524211705-960c4ad0ec5f/go.mod h1:WEbt+CwoCr3k4goxivyMrmTO7UBKFZ/T1YCXv0CCdrM=
 github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210525082203-38efccdaf629 h1:8bPYU17a84bQgC6XCqBGifvo4td7j+HpF4QHjYsywas=
 github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210525082203-38efccdaf629/go.mod h1:WEbt+CwoCr3k4goxivyMrmTO7UBKFZ/T1YCXv0CCdrM=
+github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210608203221-d8ebaaacaec1 h1:AqxjW2ay+Wi+qM+ZJxdDNzuqJ2At46TlMp6rNqWvEyw=
+github.com/wwhtrbbtt/PersonalNewsletter/aggregator v0.0.0-20210608203221-d8ebaaacaec1/go.mod h1:WEbt+CwoCr3k4goxivyMrmTO7UBKFZ/T1YCXv0CCdrM=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525065038-2b521189bce8 h1:gnRiMbzrZKTOGu1uCrVpH+eTQy+Y+mlP/gK/zYsT12I=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525065038-2b521189bce8/go.mod h1:FZ/F5shCsL4mb1xaWBtw9wfhsDfb57g2nCUC06xVfNM=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525075425-78493a135945 h1:+84MMkzi+80cExo2sXbWsiW0x0Pc8QjzWlSHXwADMl0=
@@ -193,6 +195,8 @@ github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525082203-38efccdaf62
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525082203-38efccdaf629/go.mod h1:FZ/F5shCsL4mb1xaWBtw9wfhsDfb57g2nCUC06xVfNM=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525114846-858a733e4674 h1:yqjOHWdOSIBU2rqxRVrsf90ny3fI6gQm7gwKEvKT1Q8=
 github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210525114846-858a733e4674/go.mod h1:FZ/F5shCsL4mb1xaWBtw9wfhsDfb57g2nCUC06xVfNM=
+github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210608203221-d8ebaaacaec1 h1:4tQCBCZ9Gvf8VWXxMYrf3K6UXcsBk69L+TDWJ+qOjFM=
+github.com/wwhtrbbtt/PersonalNewsletter/sender v0.0.0-20210608203221-d8ebaaacaec1/go.mod h1:FZ/F5shCsL4mb1xaWBtw9wfhsDfb57g2nCUC06xVfNM=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
