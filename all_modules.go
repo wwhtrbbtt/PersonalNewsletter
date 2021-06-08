@@ -3,11 +3,16 @@ package main
 func GetAllModules() Config {
 	var c Config
 
-	/// rss feed /// (count, url)
+	/// rss feed (count, url) ///
 	var rss ModuleConfig
 	rss.Name = "rss-feed"
 	AddSetting(&rss, "URL", "")
-	AddSetting(&rss, "count", 1)
+	AddSetting(&rss, "Count", 1)
+	c.Modules = append(c.Modules, rss)
+
+	/// QOTD (no settings) ///
+	var qotd ModuleConfig
+	qotd.Name = "qotd"
 	c.Modules = append(c.Modules, rss)
 
 	return c

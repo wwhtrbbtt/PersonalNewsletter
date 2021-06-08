@@ -4,39 +4,33 @@
 <template>
   <div class="main" id="main" v-if="show">
       <h1>Edit your newsletter</h1>
-      
-      <label class="field field_v1">
-        <input class="field__input" placeholder="eg. Sport newsletter" type="text" v-model="config.Feedname" /><br><br>
-            <span class="field__label-wrap">
-              <span class="field__label">Newsletter name</span>
-            </span>
-      </label>
+
+      <Input text="Newsletter name"
+             type="text" 
+             placeholder="eg. Sport newsletter" 
+             v-model="config.Feedname" />
       <br><br>
 
-      <label class="field field_v1">
-        <input class="field__input" placeholder="eg. 10:00" type="text" v-model="config.Time" /><br><br>
-            <span class="field__label-wrap">
-              <span class="field__label">Newsletter time</span>
-            </span>
-      </label>
+      <Input text="Newsletter time"
+             type="text" 
+             placeholder="eg. 20:30" 
+             v-model="config.Time" />
+
       <br>
       <div v-if="timeWarning != ''" style="color: red;"><br>{{ timeWarning }}</div>
       <br>
-      <label class="field field_v1">
-        <input class="field__input" placeholder="eg. Peet" type="text" v-model="config.Greetingname" /><br><br>
-            <span class="field__label-wrap">
-              <span class="field__label">Your name</span>
-            </span>
-      </label>
+
+      <Input text="Your name"
+             type="text" 
+             placeholder="eg. peet" 
+             v-model="config.Greetingname" />
       <br><br>
 
-      <label class="field field_v1">
-        <input class="field__input" placeholder="eg. name@email.com" type="text" v-model="config.Email" /><br><br>
-            <span class="field__label-wrap">
-              <span class="field__label">Your E-mail</span>
-            </span>
-      </label>
-      <br><br>
+      <!-- <Input text="Your email"
+             type="email" 
+             placeholder="eg. email@gmail.com" 
+             v-model="config.Email" />
+      <br><br> -->
 
       <h1>Modules in your newsletter</h1>
 
@@ -51,17 +45,14 @@
         <p>{{ modulesInfo[module.Name].Description }}</p>
         
         <div v-for="(setting, index2) in module.Settings" :key="index2">
-          <!-- {{ modulesInfo[module.Name].Settings[index2] }} -->
-          <label class="field field_v1">
-             <input class="field__input" :type="parseType(modulesInfo[module.Name].Settings[index2].Type)" v-model="setting.Value" /><br><br>
-                <span class="field__label-wrap">
-                  <span class="field__label">{{ setting.Name }}</span>
-                  
-                </span>
-          </label>
-          <br><br>
+
+        <Input :text="setting.Name"
+              :type="parseType(modulesInfo[module.Name].Settings[index2].Type)" 
+              v-model="setting.Value" />
+        <br><br>
+
         </div>
-        <button class="save-button" v-on:click="removeModule(index)">Remove module</button>
+        <button class="save-button s-b-small" v-on:click="removeModule(index)">Remove module</button>
       </div>
 
       <br><br>
@@ -69,7 +60,7 @@
             <option v-for="(module, index) in possibleModules" :value="module.InternalName" v-bind:key="index" >{{ module.ShowName }}</option>
         </select> 
         <br>
-        <button class="save-button" v-on:click="addModule">Add module</button>
+        <button class="save-button s-b-small" v-on:click="addModule">Add module</button>
       <br><br>
 
     <br>
@@ -83,8 +74,10 @@
 <script>
 import db from "../main"
 import firebase from "firebase";
+import Input from './ui/Input.vue';
 
 export default {
+  components: { Input },
   name: 'Dashboard',
 
   data: () => ({ 
@@ -95,6 +88,7 @@ export default {
     modulesInfo: {},
     show: false,
     chosenModule: "",
+    test: "",
    }),
 
    created() {
@@ -124,10 +118,16 @@ export default {
         return "Invalid time. Use the 24h format (eg.  20:00)"
       }
       return "Invalid time. Use the 24h format (eg.  20:00)"
-    }
+    },
   },
 
   methods: {
+    testFunc: function() {
+      console.log(this.test)
+    },
+
+
+
     saveChanges: function() {
 
       if (this.timeWarning != "") {
@@ -208,6 +208,7 @@ export default {
         }) 
     },
     addModule: function() {
+      
       console.log(this.chosenModule)
       const m = this.modulesInfo[this.chosenModule];
       // console.log(m)
@@ -238,6 +239,7 @@ export default {
         Name: this.chosenModule,
         Settings: settings,
       })
+      this.chosenModule = ""
     },
     parseType: function (raw) {
       if (raw == "int") {

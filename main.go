@@ -1,14 +1,12 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/mitchellh/mapstructure"
-	aggregator "github.com/wwhtrbbtt/PersonalNewsletter/aggregator"
 	sender "github.com/wwhtrbbtt/PersonalNewsletter/sender"
 )
 
@@ -167,15 +165,6 @@ func CheckEqualSettings(m1, m2 ModuleConfig) bool {
 		}
 	}
 	return true
-}
-
-func FetchData(c ModuleConfig) (aggregator.Module, error) {
-	switch c.Name {
-	case "rss-feed":
-		return aggregator.FetchRssFeed(c.Settings[0].Value.(string), int(c.Settings[1].Value.(int64)))
-	default:
-		return aggregator.Module{}, errors.New("couldn't find module (FetchData)")
-	}
 }
 
 type Secrets struct {

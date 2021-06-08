@@ -29,7 +29,6 @@ body {
 
 .save-button {
     background-color: var(--ui1, #cb997e);
-    /* border: none; */
     color: var(--text-bright, #fff);
     padding: 15px 32px;
     text-align: center;
@@ -37,6 +36,10 @@ body {
     display: inline-block;
     font-size: 1rem;
     border: 0.2rem solid var(--ui2, #ddbea9)
+}
+
+.s-b-small {
+  padding: 8px 20px;
 }
 
 /* Navbar */

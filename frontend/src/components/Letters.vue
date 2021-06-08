@@ -9,7 +9,7 @@
         <div v-for="(letter, index) in letters" :key="index">
             <h3>{{ letter.Feedname }}</h3>
             <p>{{ letter.Modules.length }}  Modules, comes at {{ letter.Time }}</p>
-            <button class="save-button" v-on:click="$router.push({ name: 'dashboard', query: { letter: letter.id }})">
+            <button class="save-button s-b-small" v-on:click="$router.push({ name: 'dashboard', query: { letter: letter.id }})">
                 Edit
             </button>
         </div>

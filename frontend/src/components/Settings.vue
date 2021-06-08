@@ -15,9 +15,9 @@
         <p>Email: {{ user.email }}</p>
         <p>User ID: {{ user.uid }}</p>
         <h2>Profile settings</h2>
-        <button class="save-button" v-on:click="logout">Logout</button>
+        <button class="save-button s-b-small" v-on:click="logout">Logout</button>
         <br><br>
-        <button class="save-button">Delete account</button>
+        <button class="save-button s-b-small">Delete account</button>
     </div>
 </template>
 
