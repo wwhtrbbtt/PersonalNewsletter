@@ -16,6 +16,7 @@
     [X] Add a name field on register, use that for Letters. 
     [] Make email and name changeable in the settings, remove name & email from config
     [] Figure something out for timezones (oh god, fuck timezones)
+    [] Make js files smaller
     	
  
     
