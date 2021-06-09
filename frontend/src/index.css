@@ -13,6 +13,10 @@
     --nav3: #6b705c;
 }
 
+h1 {
+  text-align: center;
+}
+
 #main {
   margin-left: 10%;
   margin-right: 10%;
@@ -28,14 +32,22 @@ body {
 }
 
 .save-button {
+    cursor: pointer;
     background-color: var(--ui1, #cb997e);
+    border: 0.2rem solid var(--ui2, #ddbea9);
     color: var(--text-bright, #fff);
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 1rem;
-    border: 0.2rem solid var(--ui2, #ddbea9)
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.save-button:active {
+  background-color: var(--ui2, #cb997e);
+  border: 0.2rem solid var(--ui1, #ddbea9);
 }
 
 .s-b-small {

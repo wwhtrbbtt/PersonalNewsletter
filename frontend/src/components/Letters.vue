@@ -1,7 +1,7 @@
 <template>
     <div id="main" class="main" v-if="show">
         <h1>Your letters</h1>
-        <p v-if="!letters.length">
+        <p style="text-align: center;" v-if="!letters.length">
             No letters yet - create one!
         </p>
 
@@ -62,7 +62,7 @@ export default {
             db.collection("NewLetters").add({
                 Email: this.user.email,
                 Feedname: "Newsletter " + (this.letters.length + 1),
-                Greetingname: "name",
+                Greetingname: this.user.displayName,
                 Time: "10:00",
                 User: this.user.uid,
                 Modules: []

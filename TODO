@@ -12,16 +12,21 @@
     [X] Let users add Modules to letters
         [X] Have a central register of all modules, with info on settings
 	
-    [] fix one-time bug "not authored" on login
+    [X] fix one-time bug "not authored" on login
+    [X] Add a name field on register, use that for Letters. 
+    [] Make email and name changeable in the settings, remove name & email from config
     [] Figure something out for timezones (oh god, fuck timezones)
+    	
+ 
     
 General stuff:
     [] Have different themes
     [] Let users change colors of email 
     [] Email prefab (sport, international news, tech, ...)
-    [] Re-implement checking if a config is valid
+    [] Re-implement checking if a config is valid (backend)
 
 [] Add more modules
+    [X] QOTD
     [] Recipe of the day
     [] Weather
     [] Stocks

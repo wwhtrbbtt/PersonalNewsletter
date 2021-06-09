@@ -20,18 +20,6 @@
       <div v-if="timeWarning != ''" style="color: red;"><br>{{ timeWarning }}</div>
       <br>
 
-      <Input text="Your name"
-             type="text" 
-             placeholder="eg. peet" 
-             v-model="config.Greetingname" />
-      <br><br>
-
-      <!-- <Input text="Your email"
-             type="email" 
-             placeholder="eg. email@gmail.com" 
-             v-model="config.Email" />
-      <br><br> -->
-
       <h1>Modules in your newsletter</h1>
 
       <p v-if="!config.Modules.length">
@@ -55,15 +43,10 @@
         <button class="save-button s-b-small" v-on:click="removeModule(index)">Remove</button>
       </div>
 
-      <br><br>
-        <select v-model="chosenModule">
-            <option v-for="(module, index) in possibleModules" :value="module.InternalName" v-bind:key="index" >{{ module.ShowName }}</option>
-        </select> 
-        <br>
-        <button class="save-button s-b-small" v-on:click="addModule">Add module</button>
-      <br><br>
-
     <br>
+    <Dropdown title="Add a module" :options="possibleModulesDropdown()" v-model="chosenModule"/>
+    <br><br>
+
     <div style="text-align: center;">
       <button type="button" class="save-button" v-on:click="saveChanges">Done</button><br><br>
       <button type="button" class="save-button" v-on:click="deleteLetter">Delete</button><br><br>
@@ -76,14 +59,13 @@ import db from "../main"
 
 import firebase from 'firebase/app';
 import 'firebase/auth';
-// import firebase from 'firebase/app';
-
-
-
 import Input from './ui/Input.vue';
+import Dropdown from './ui/Dropdown.vue';
+
+
 
 export default {
-  components: { Input },
+  components: { Input, Dropdown },
   name: 'Dashboard',
 
   data: () => ({ 
@@ -103,8 +85,6 @@ export default {
         if (user) {
             this.loadPossibleModules()
             this.loadLetter(id)
-
-
         } else {
             console.log("not logged in")
         }
@@ -112,6 +92,7 @@ export default {
   },
 
   computed: {
+
     timeWarning() {
       try {
         let hours = parseInt(this.config.Time.split(":")[0])
@@ -127,12 +108,24 @@ export default {
     },
   },
 
+  watch: {
+    chosenModule: function() {
+      this.addModule()
+      this.chosenModule = ""
+    }
+  },
+
   methods: {
-    testFunc: function() {
-      console.log(this.test)
+    possibleModulesDropdown: function() {
+      let options = []
+      this.possibleModules.map( module => {
+        options.push({
+          Key: module.InternalName,
+          Value: module.ShowName
+        })
+      })
+      return options
     },
-
-
 
     saveChanges: function() {
 
@@ -170,7 +163,6 @@ export default {
       .then(snapshot => {
         const data = snapshot.data()
         this.config = data
-        console.log(data)
         this.show = true
       })
       .catch(err => {
@@ -183,13 +175,11 @@ export default {
       db.collection("misc").doc("newModules").get()
       .then(snapshot => {
         this.possibleModules = snapshot.data().Modules
-        console.log(this.possibleModules)
       })
       .then( () => {
           // make a dict out of the data.
 
           let tmp = {}
-          console.log(typeof(this.possibleModules))
           this.possibleModules.forEach(module => {
             tmp[module.InternalName] = module
           })
@@ -203,6 +193,10 @@ export default {
     },
 
     deleteLetter: function() {
+      if (!confirm(`Do you really want to delete '${this.config.ShowName}'? This can't be undone.`)) {
+        return
+      }
+
       let id = this.$route.query.letter
       db.collection("NewLetters").doc(id).delete()
         .then(() => {

@@ -2,20 +2,15 @@
     <div id="main" class="main">
         <form @submit.prevent="login">     
             <h2>Login</h2>     
-        <label class="field field_v1">
-            <input class="field__input" type="email" v-model="email" /><br><br>
-                <span class="field__label-wrap">
-                <span class="field__label">Email</span>
-                </span>
-        </label>
+
+      <Input text="Email"
+             type="email" 
+             v-model="email" />
         <br><br>
 
-        <label class="field field_v1">
-            <input class="field__input" type="password" v-model="password" /><br><br>
-                <span class="field__label-wrap">
-                <span class="field__label">Password</span>
-                </span>
-        </label>
+      <Input text="Password"
+             type="password" 
+             v-model="password" />
         <br><br>    
 
         <p v-if="error != ''">{{ error }}</p>
@@ -23,22 +18,41 @@
                 Login
             </button>   
         </form> 
+        <p v-on:click="forgotPassword" style="cursor: pointer;">Reset password</p>
     </div>
 </template>
 
 <script>
 import firebase from "firebase/app";
 import "firebase/auth";
+import Input from './ui/Input.vue';
 
 export default {
+    components: { Input },
     data: () => ({ 
         email: "",
         password: "",
         error: ""
         }),
     methods: {
+        forgotPassword: function() {
+            this.error = ""
+            if (this.password == "") {
+                this.error = "Enter your email"
+            }
+            firebase.auth().sendPasswordResetEmail(this.email)
+                .then( () => {
+                    this.error = "Send an email. Please also check your spam folder."
+                })
+                .catch( err => {
+                    this.error = err.message
+                })
+        },
         login: function() {
         this.error = ""
+        if (this.password == "") {
+                this.error = "Enter your email"
+        }
         firebase
             .auth()
             .signInWithEmailAndPassword(this.email, this.password)

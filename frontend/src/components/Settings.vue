@@ -12,12 +12,30 @@
             Account
         </h1>
         <h2>Profile information</h2>
-        <p>Email: {{ user.email }}</p>
-        <p>User ID: {{ user.uid }}</p>
+
+        <div v-if="!edit">
+            <p>Email: {{ email }}</p>
+            <p>Your name: {{ name }}</p>
+            <button class="save-button s-b-small" v-on:click="edit = true">Edit</button>
+        </div>
+
+        <div v-if="edit">
+            <p>Email: {{ email }}</p>
+            <p>You can't edit your email (yet)</p>
+
+            <Input v-if="edit" text="Name"
+                type="text" 
+                v-model="name" />
+            <br><br>
+
+            <button v-if="edit" class="save-button s-b-small" v-on:click="saveChanges">Save</button>
+        </div>
+
         <h2>Profile settings</h2>
-        <button class="save-button s-b-small" v-on:click="logout">Logout</button>
-        <br><br>
-        <button class="save-button s-b-small">Delete account</button>
+        <button style="margin-right:20px;" class="save-button s-b-small" v-on:click="logout">Logout</button>
+             
+        <button class="save-button s-b-small" v-on:click="deleteAccount">Delete account</button>
+        <p style="font-size: 10px;">User ID: {{ user.uid }}</p>
     </div>
 </template>
 
@@ -26,13 +44,18 @@
 //import firebase from "firebase";
 import firebase from 'firebase/app';
 import 'firebase/auth'
+import db from "../main"
+import Input from './ui/Input.vue';
 
 export default {
+    components: { Input },
     created() {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 this.user = user
                 this.show = true
+                this.name = user.displayName
+                this.email = user.email
                 console.log("logged in")
             } else {
             this.show = false
@@ -47,8 +70,6 @@ export default {
         //     this.currentColorScheme = getCookie("theme")
         // }
         // this.applyColor()
-
-
     },
 
     methods: {
@@ -83,11 +104,87 @@ export default {
                 this.$router.push('/');
                 })
             },
+
+        deleteAccount: function() {
+            if (confirm("Do you really want to delete your account? All of your data will be deleted.")) {
+               
+                db.collection("NewLetters").where("User", "==", this.user.uid).get()
+                .then(docs => {
+                    docs.forEach(doc => { 
+                        doc.get().then(snap => {
+                            snap.delete().then(() => {
+                                console.log("deleted letter")
+                            })
+                            .catch(err => {
+                                console.log(err.message)
+                            
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err.message)
+                        })      
+                    })
+                })
+               
+               // delete account
+                firebase
+                    .auth()
+                    .currentUser
+                    .delete()
+                    .then(() => {
+                        this.$router.push("/login/")
+                    })
+                    .catch(err => {
+                        if (err.message == "This operation is sensitive and requires recent authentication. Log in again before retrying this request.") {
+                            alert("Logout and login before deleting your account")
+                            this.$router.push("/login/")
+                        }
+                    })
+                }
+        },
+        saveChanges: function() {
+
+            // save changes to user
+            let userNow = firebase.auth().currentUser;
+
+            userNow.updateProfile({
+                displayName: this.name,
+                // email: this.email,
+            }).then(
+                console.log("updated display name"),
+            ).catch(err => {
+                console.log(err.message)
+                return
+            })
+
+            // edit every newsletter the user has
+            db.collection("NewLetters").where("User", "==", this.user.uid).get()
+            .then(docs => {
+                    docs.forEach(doc => { 
+
+                        console.log(doc.id)
+                        db.collection("NewLetters").doc(doc.id).update({
+                            // Email: this.email,
+                            Greetingname: this.name,
+                        })
+                        .then( () => {
+                            console.log("updated element")
+                        })
+                        .catch( err => {
+                            console.log(err.message)
+                        })
+                    })
+                })            
+            this.edit = false
+        }
     },
     data: () => ({ 
         // currentColorScheme: "pastel",
         user: {},
         show: false,
+        edit: false,
+        email: "",
+        name: "",
         // colorSchemes: {
         //     "pastel": 
         //         ["000000", "f8f8f8", "ffe8d6", "cb997e", "ddbea9", "b7b7a4", "a5a58d", "6b705c"],

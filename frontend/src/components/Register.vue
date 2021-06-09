@@ -2,28 +2,25 @@
     <div id="main" class="main">
         <form @submit.prevent="register">     
             <h2>Register</h2>     
-        <label class="field field_v1">
-            <input class="field__input" type="email" v-model="email" /><br><br>
-                <span class="field__label-wrap">
-                <span class="field__label">Email</span>
-                </span>
-        </label>
+
+        <Input text="Email"
+             type="email" 
+             v-model="email" />
         <br><br>
 
-        <label class="field field_v1">
-            <input class="field__input" type="password" v-model="password" /><br><br>
-                <span class="field__label-wrap">
-                <span class="field__label">Password</span>
-                </span>
-        </label>
+        <Input text="Name"
+             type="text" 
+             v-model="name" />
+        <br><br>
+
+      <Input text="Password"
+             type="password" 
+             v-model="password" />
         <br><br>    
 
-        <label class="field field_v1">
-            <input class="field__input" type="password" v-model="passwordConfirm" /><br><br>
-                <span class="field__label-wrap">
-                <span class="field__label">Confirm password</span>
-                </span>
-        </label>
+      <Input text="Confirm password"
+             type="password" 
+             v-model="passwordConfirm" />
         <br><br>  
         <p v-if="error != ''">{{ error }}</p>
         <button type="submit" class="save-button">
@@ -37,29 +34,42 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/auth";
-import db from "../main"
+import Input from './ui/Input.vue';
+
 
 export default {
+    components: { Input },
     data: () => ({ 
         email: "",
         password: "",
         passwordConfirm: "",
-        error: ""
+        error: "",
+        name: "",
     }),
 
     methods: {
-        createProfile: function(id) {
-                console.log(id)
-                db.collection("users").doc(id).set({
-                    letters: {},
-                    user: id
-                })
-                .then(() => {
-                    console.log("Document successfully written!");
-                })
-                .catch((error) => {
-                    console.error("Error writing document: ", error);
-                });
+        // createProfile: function(id) {
+        //         console.log(id)
+        //         db.collection("users").doc(id).set({
+        //             letters: {},
+        //             user: id
+        //         })
+        //         .then(() => {
+        //             console.log("Document successfully written!");
+        //         })
+        //         .catch((error) => {
+        //             console.error("Error writing document: ", error);
+        //         });
+        // },
+        setName: function(name) {
+            let userNow = firebase.auth().currentUser;
+            userNow.updateProfile({
+                displayName: name,
+            }).then(
+                console.log("updated display name")
+            ).catch(err => {
+                console.log(err.message)
+            })
         },
 
         register: function() {
@@ -73,21 +83,23 @@ export default {
                 this.error = "Password has to be longer"
                 return
             }
-        
-
             firebase
                 .auth()
                 .createUserWithEmailAndPassword(this.email, this.password)
                 .then(() => {
                     this.$router.push("/letters/")
+                    firebase.auth().onAuthStateChanged( user => {
+                        if (user) {
+                            console.log("logged in")
+                            this.setName(this.name)
+                        } else {
+                            console.log("not logged in")
+                        }
+                    })
                 })
                 .catch(error => {
                     this.error = error.message
                 })
-            const id = firebase.auth().currentUser.id
-            this.createProfile(id)
-
-            
         }
     }
 }
